@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Fertility Meal Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            padding: 24px;
+            border-radius: 8px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800">
+
+    <div class="container mx-auto p-4 sm:p-6 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-emerald-800">Weekly Fertility Meal Plan</h1>
+            <p class="text-stone-600 mt-2">Click on a meal to see the full recipe for 4 portions.</p>
+        </header>
+
+        <main>
+            <!-- Weekly Plan Grid -->
+            <div id="weekly-plan-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer transform hover:scale-105 transition-transform duration-200" data-meal="Monday">
+                    <img src="https://placehold.co/400x200/e57373/FFFFFF?text=Paneer+Bowl" alt="Bulgur Bowl with Roasted Veggies and Paneer" class="w-full h-40 object-cover rounded-t-lg mb-4">
+                    <h3 class="font-bold text-lg text-emerald-700">Monday</h3>
+                    <p class="text-stone-600 mt-2">Bulgur Bowl with Roasted Veggies and Paneer</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer transform hover:scale-105 transition-transform duration-200" data-meal="Tuesday">
+                    <img src="https://placehold.co/400x200/ffb74d/FFFFFF?text=Chicken+%26+Potatoes" alt="Chicken Thigh and Baked Potatoes" class="w-full h-40 object-cover rounded-t-lg mb-4">
+                    <h3 class="font-bold text-lg text-emerald-700">Tuesday</h3>
+                    <p class="text-stone-600 mt-2">Chicken Thigh and Baked Potatoes</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer transform hover:scale-105 transition-transform duration-200" data-meal="Wednesday">
+                    <img src="https://placehold.co/400x200/81c784/FFFFFF?text=Salmon+%26+Veggies" alt="Sheet Pan Salmon with Roasted Veggies" class="w-full h-40 object-cover rounded-t-lg mb-4">
+                    <h3 class="font-bold text-lg text-emerald-700">Wednesday</h3>
+                    <p class="text-stone-600 mt-2">Sheet Pan Salmon with Roasted Veggies</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer transform hover:scale-105 transition-transform duration-200" data-meal="Thursday">
+                    <img src="https://placehold.co/400x200/bcaaa4/FFFFFF?text=Tofu+%26+Broccoli" alt="Tofu and Broccoli Stir-fry" class="w-full h-40 object-cover rounded-t-lg mb-4">
+                    <h3 class="font-bold text-lg text-emerald-700">Thursday</h3>
+                    <p class="text-stone-600 mt-2">Tofu and Broccoli Stir-fry</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer transform hover:scale-105 transition-transform duration-200" data-meal="Friday">
+                    <img src="https://placehold.co/400x200/90a4ae/FFFFFF?text=Shrimp+%26+Pasta" alt="Shrimp and Veggie Pasta" class="w-full h-40 object-cover rounded-t-lg mb-4">
+                    <h3 class="font-bold text-lg text-emerald-700">Friday</h3>
+                    <p class="text-stone-600 mt-2">Shrimp and Veggie Pasta</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer transform hover:scale-105 transition-transform duration-200" data-meal="Saturday">
+                    <img src="https://placehold.co/400x200/4db6ac/FFFFFF?text=Chicken+%26+Quinoa" alt="Chicken and Quinoa Bowl" class="w-full h-40 object-cover rounded-t-lg mb-4">
+                    <h3 class="font-bold text-lg text-emerald-700">Saturday</h3>
+                    <p class="text-stone-600 mt-2">Chicken and Quinoa Bowl</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer transform hover:scale-105 transition-transform duration-200" data-meal="Sunday">
+                    <img src="https://placehold.co/400x200/5c6bc0/FFFFFF?text=Leftovers" alt="Leftovers or a 'Kitchen Sink' Meal" class="w-full h-40 object-cover rounded-t-lg mb-4">
+                    <h3 class="font-bold text-lg text-emerald-700">Sunday</h3>
+                    <p class="text-stone-600 mt-2">Leftovers or a "Kitchen Sink" Meal</p>
+                </div>
+            </div>
+
+            <!-- Modal for Recipes -->
+            <div id="recipe-modal" class="modal">
+                <div class="modal-content w-full sm:w-3/4 lg:w-1/2">
+                    <span class="close-button">&times;</span>
+                    <img id="modal-image" src="" alt="" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h2 id="modal-title" class="text-3xl font-bold text-emerald-800 mb-4"></h2>
+                    <h3 class="text-xl font-semibold text-stone-700 mb-2">Ingredients (for 4 portions)</h3>
+                    <ul id="modal-ingredients" class="list-disc list-inside space-y-2 text-stone-600 mb-4"></ul>
+                    <h3 class="text-xl font-semibold text-stone-700 mb-2">Instructions</h3>
+                    <ol id="modal-instructions" class="list-decimal list-inside space-y-3 text-stone-600"></ol>
+                    <div id="modal-mealprep" class="mt-6"></div>
+                </div>
+            </div>
+            
+            <!-- Weekly Shopping List Section -->
+            <section class="mt-12">
+                <h2 class="text-3xl font-bold text-emerald-800 text-center mb-6">Weekly Shopping List</h2>
+                <p class="text-stone-600 text-center mb-8 max-w-2xl mx-auto">This list is organized for two shopping trips per week to ensure you have the freshest ingredients. Quantities are based on the 4-portion recipes for your entire week.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold text-emerald-700 mb-4">Shopping Trip 1 (for Monday - Wednesday)</h3>
+                        <ul class="list-disc list-inside space-y-2 text-stone-600">
+                            <li class="font-semibold text-stone-800">Proteins:</li>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li>1 block paneer</li>
+                                <li>4 salmon fillets</li>
+                                <li>1 lb shrimp</li>
+                            </ul>
+                            <li class="font-semibold text-stone-800 mt-4">Produce:</li>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li>1 medium onion</li>
+                                <li>2 paprika</li>
+                                <li>2 zucchini</li>
+                                <li>1 head of broccoli</li>
+                                <li>2 cups mushrooms</li>
+                                <li>1 bag of fresh spinach</li>
+                                <li>1 head of garlic</li>
+                                <li>1 lemon</li>
+                                <li>1 cucumber</li>
+                                <li>Fresh dill and mint</li>
+                                <li>Fresh parsley</li>
+                            </ul>
+                            <li class="font-semibold text-stone-800 mt-4">Pantry & Other:</li>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li>Olive oil</li>
+                                <li>Garlic powder</li>
+                                <li>Salt & pepper</li>
+                                <li>16 oz pasta</li>
+                                <li>Red pepper flakes (optional)</li>
+                                <li>Parmesan cheese</li>
+                                <li>Rice (1 bag)</li>
+                                <li>Quinoa (1 bag)</li>
+                                <li>Bulgur (1 bag)</li>
+                                <li>1 large container of plain Greek yogurt</li>
+                            </ul>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 class="text-2xl font-bold text-emerald-700 mb-4">Shopping Trip 2 (for Thursday - Sunday)</h3>
+                        <ul class="list-disc list-inside space-y-2 text-stone-600">
+                             <li class="font-semibold text-stone-800">Proteins:</li>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li>1 block extra-firm tofu</li>
+                                <li>2 chicken breasts</li>
+                                <li>4 chicken thighs</li>
+                            </ul>
+                            <li class="font-semibold text-stone-800 mt-4">Produce:</li>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li>1 medium onion</li>
+                                <li>1 paprika</li>
+                                <li>1 zucchini</li>
+                                <li>1 head of broccoli</li>
+                                <li>1 cup mushrooms</li>
+                                <li>4 large baking potatoes</li>
+                                <li>Fresh spinach (small bag)</li>
+                                <li>Fresh cilantro or parsley</li>
+                            </ul>
+                            <li class="font-semibold text-stone-800 mt-4">Pantry & Other:</li>
+                            <ul class="list-disc list-inside ml-4 space-y-1">
+                                <li>Soy sauce</li>
+                                <li>Ginger</li>
+                                <li>Sesame oil</li>
+                                <li>Dried rosemary</li>
+                            </ul>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const recipes = {
+            "Monday": {
+                title: "Bulgur Bowl with Roasted Veggies and Paneer",
+                image: "https://placehold.co/600x400/e57373/FFFFFF?text=Paneer+Bowl",
+                ingredients: [
+                    "4 cups cooked bulgur (from meal prep)",
+                    "2 cups roasted paprika, zucchini, and onions (from meal prep)",
+                    "1 block (8 oz) paneer, cubed",
+                    "1 tbsp olive oil",
+                    "1/4 cup lemon juice",
+                    "Fresh cilantro or parsley, chopped",
+                    "Salt and pepper to taste"
+                ],
+                instructions: [
+                    "In a non-stick pan, heat olive oil over medium heat. Add cubed paneer and fry until golden brown on all sides. Set aside.",
+                    "In a large bowl, combine the pre-cooked bulgur with the roasted vegetables.",
+                    "Drizzle the lemon juice and a little more olive oil over the mixture. Season with salt and pepper and toss gently to combine.",
+                    "Top with the fried paneer cubes and a generous sprinkle of fresh cilantro or parsley. Serve warm or at room temperature."
+                ],
+                mealPrep: ""
+            },
+            "Tuesday": {
+                title: "Chicken Thigh and Baked Potatoes",
+                image: "https://placehold.co/600x400/ffb74d/FFFFFF?text=Chicken+%26+Potatoes",
+                ingredients: [
+                    "4 bone-in, skin-on chicken thighs",
+                    "4 large baking potatoes",
+                    "2 tbsp olive oil",
+                    "1 tsp paprika",
+                    "1 tsp dried rosemary",
+                    "Salt and black pepper to taste",
+                    "1 cup chopped mushrooms",
+                    "2 cups fresh spinach",
+                    "1 onion, sliced"
+                ],
+                instructions: [
+                    "Preheat oven to 400°F (200°C). Wash and dry the potatoes. Prick them all over with a fork. Rub with olive oil, salt, and pepper and place on a baking sheet. Bake for 45-60 minutes until tender.",
+                    "While potatoes are baking, rub chicken thighs with olive oil, paprika, rosemary, salt, and pepper. Place on a separate baking sheet.",
+                    "In a bowl, toss the sliced onion and mushrooms with olive oil, salt, and pepper.",
+                    "Once potatoes are about halfway done, place the chicken and onion/mushroom mixture in the oven. Bake for about 30-35 minutes, until the chicken is cooked through and the vegetables are roasted.",
+                    "To serve, slice open the baked potatoes and top with the chicken thighs, roasted onions, and mushrooms. Wilt the spinach in a hot pan or microwave and serve on the side."
+                ],
+                mealPrep: ""
+            },
+            "Wednesday": {
+                title: "Sheet Pan Salmon with Roasted Veggies",
+                image: "https://placehold.co/600x400/81c784/FFFFFF?text=Salmon+%26+Veggies",
+                ingredients: [
+                    "4 salmon fillets",
+                    "2 tbsp olive oil",
+                    "1 tsp garlic powder",
+                    "1/2 tsp salt",
+                    "1/2 tsp black pepper",
+                    "1 paprika, chopped",
+                    "1 zucchini, sliced",
+                    "1 head of broccoli, chopped",
+                    "1 medium onion, chopped",
+                    "Lemon slices"
+                ],
+                instructions: [
+                    "Preheat oven to 400°F (200°C).",
+                    "On a large sheet pan, toss paprika, zucchini, broccoli, and onion with 1 tbsp olive oil, salt, and pepper.",
+                    "Place the salmon fillets on the same pan. Drizzle with remaining olive oil and sprinkle with garlic powder, salt, and pepper. Top with lemon slices.",
+                    "Bake for 15-20 minutes, or until the salmon is cooked through and the vegetables are tender.",
+                    "Serve with pre-cooked rice."
+                ],
+                mealPrep: "On **Wednesday**, cook enough **rice** for Wednesday's meal and **quinoa** for Saturday's meal. Also, cube the **tofu** and store it for Thursday's stir-fry."
+            },
+            "Thursday": {
+                title: "Tofu and Broccoli Stir-fry",
+                image: "https://placehold.co/600x400/bcaaa4/FFFFFF?text=Tofu+%26+Broccoli",
+                ingredients: [
+                    "1 block (14-16 oz) extra-firm tofu",
+                    "2 tbsp soy sauce",
+                    "1 tbsp grated ginger",
+                    "2 tbsp sesame oil",
+                    "1 head of broccoli, chopped",
+                    "1 cup sliced mushrooms",
+                    "1/2 a medium onion, sliced",
+                    "4 cups cooked rice (from meal prep)"
+                ],
+                instructions: [
+                    "Press the tofu to remove excess water. Cut into 1-inch cubes.",
+                    "In a bowl, toss tofu with 1 tbsp soy sauce and ginger. Let marinate for 10 minutes.",
+                    "In a large skillet or wok, heat sesame oil over medium-high heat. Add broccoli, mushrooms, and onion to the same skillet. Stir-fry for 5-7 minutes until vegetables are tender.",
+                    "Return tofu to the skillet. Add the remaining 1 tbsp soy sauce and toss to combine.",
+                    "Serve hot over pre-cooked rice."
+                ],
+                mealPrep: ""
+            },
+            "Friday": {
+                title: "Shrimp and Veggie Pasta",
+                image: "https://placehold.co/600x400/90a4ae/FFFFFF?text=Shrimp+%26+Pasta",
+                ingredients: [
+                    "16 oz pasta (e.g., penne or fusilli)",
+                    "1 lb shrimp, peeled and deveined",
+                    "1 paprika, chopped",
+                    "1 zucchini, sliced",
+                    "2 cloves garlic, minced",
+                    "2 tbsp olive oil",
+                    "Red pepper flakes (optional)",
+                    "Parmesan cheese for serving"
+                ],
+                instructions: [
+                    "Cook pasta according to package directions. Drain and set aside.",
+                    "In a large pan, heat olive oil over medium-high heat. Add minced garlic, paprika, and zucchini. Sauté for 5-7 minutes until vegetables are tender-crisp.",
+                    "Add shrimp to the pan and cook for 2-3 minutes per side, or until they turn pink and opaque.",
+                    "Add the drained pasta to the pan with the shrimp and veggies. Toss to combine.",
+                    "Sprinkle with red pepper flakes if desired and serve with fresh parmesan cheese."
+                ],
+                mealPrep: ""
+            },
+            "Saturday": {
+                title: "Chicken and Quinoa Bowl",
+                image: "https://placehold.co/600x400/4db6ac/FFFFFF?text=Chicken+%26+Quinoa",
+                ingredients: [
+                    "2 cooked chicken breasts, diced (from meal prep)",
+                    "4 cups cooked quinoa (from meal prep)",
+                    "2 cups mushrooms, sliced",
+                    "1/2 a medium onion, diced",
+                    "2 tbsp olive oil",
+                    "1 bag of fresh spinach",
+                    "Salt and black pepper to taste"
+                ],
+                instructions: [
+                    "In a large pan or skillet, heat olive oil over medium heat. Add the diced onion and cook until softened.",
+                    "Add the sliced mushrooms and cook until they release their liquid and brown.",
+                    "Add the pre-cooked diced chicken and heat through.",
+                    "Stir in the fresh spinach and cook just until it wilts.",
+                    "Season with salt and pepper.",
+                    "Divide the pre-cooked quinoa into 4 bowls and top with the chicken and vegetable mixture. Serve warm."
+                ],
+                mealPrep: ""
+            },
+            "Sunday": {
+                title: "Sunday Meal Prep",
+                image: "https://placehold.co/600x400/5c6bc0/FFFFFF?text=Sunday+Meal+Prep",
+                ingredients: [
+                    "**Cook Grains:** Cook enough bulgur for Monday's meal and quinoa for Tuesday's meal. Store in airtight containers.",
+                    "**Chop & Roast Veggies:** Chop onions, paprika, and zucchini. Toss with oil, salt, and pepper and roast at 400°F (200°C) for 20-25 minutes. Store for later use.",
+                    "**Prep Paneer:** Cube the paneer and store it in the fridge so it's ready to fry for Monday's meal.",
+                    "**Creamy Yogurt Herb Dip:** Grate 1 large cucumber and squeeze out the excess water. Finely chop 1 clove of garlic, 2 tbsp fresh dill, and 2 tbsp fresh mint. Mix with 2 cups of plain Greek yogurt and a pinch of salt and pepper. Store in an airtight container to use with meals throughout the week."
+                ],
+                instructions: [
+                    "Completing these meal prep steps on Sunday will make your weeknights easier and ensure you have all the necessary ingredients ready to go for your daily meals."
+                ],
+                mealPrep: "This is your main meal prep day. All instructions are listed here."
+            }
+        };
+
+        const modal = document.getElementById("recipe-modal");
+        const modalImage = document.getElementById("modal-image");
+        const modalTitle = document.getElementById("modal-title");
+        const modalIngredients = document.getElementById("modal-ingredients");
+        const modalInstructions = document.getElementById("modal-instructions");
+        const modalMealPrep = document.getElementById("modal-mealprep");
+        const closeButton = document.getElementsByClassName("close-button")[0];
+
+        document.getElementById("weekly-plan-grid").addEventListener("click", function(event) {
+            const dayCard = event.target.closest("[data-meal]");
+            if (dayCard) {
+                const day = dayCard.dataset.meal;
+                const recipe = recipes[day];
+                
+                modalImage.src = recipe.image;
+                modalImage.alt = recipe.title;
+                modalTitle.textContent = recipe.title;
+                modalIngredients.innerHTML = "";
+                recipe.ingredients.forEach(item => {
+                    const li = document.createElement("li");
+                    li.textContent = item;
+                    modalIngredients.appendChild(li);
+                });
+
+                modalInstructions.innerHTML = "";
+                recipe.instructions.forEach(step => {
+                    const li = document.createElement("li");
+                    li.textContent = step;
+                    modalInstructions.appendChild(li);
+                });
+
+                if (recipe.mealPrep) {
+                    modalMealPrep.innerHTML = `
+                        <h3 class="text-xl font-semibold text-stone-700 mb-2">Meal Prep</h3>
+                        <p class="text-stone-600">${recipe.mealPrep}</p>
+                    `;
+                } else {
+                    modalMealPrep.innerHTML = "";
+                }
+
+                modal.style.display = "flex";
+            }
+        });
+
+        closeButton.onclick = function() {
+            modal.style.display = "none";
+        };
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    </script>
+
+</body>
+</html>
